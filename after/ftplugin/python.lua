@@ -7,16 +7,18 @@ local function execute_python()
   end
 
   local venv = vim.env.VIRTUAL_ENV
-  local file = vim.fn.expand("%:p")
+  local file = vim.fn.shellescape(vim.fn.expand("%:p"))
 
   if venv and venv ~= "" then
-    vim.cmd("below terminal " .. venv .. "/bin/python " .. file)
+    vim.cmd("below terminal " .. vim.fn.shellescape(venv .. "/bin/python") .. " " .. file)
   elseif vim.fn.isdirectory("./env") == 1 then
     vim.cmd("below terminal ./env/bin/python " .. file)
-  elseif vim.fn.isdirectory("./.env") == 1 then
-    vim.cmd("below terminal ./.env/bin/python " .. file)
+  elseif vim.fn.isdirectory("./.venv") == 1 then
+    vim.cmd("below terminal ./.venv/bin/python " .. file)
   elseif vim.fn.isdirectory("./../env") == 1 then
     vim.cmd("below terminal ./../env/bin/python " .. file)
+  elseif vim.fn.isdirectory("./../.venv") == 1 then
+    vim.cmd("below terminal ./../.venv/bin/python " .. file)
   else
     vim.cmd("below terminal python3 " .. file)
   end

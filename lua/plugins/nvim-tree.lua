@@ -15,6 +15,11 @@ return {
       },
       renderer = {
         group_empty = true,
+        icons = {
+            show = {
+                file = false,
+            }
+       }
       },
       filters = {
         dotfiles = false, -- Afficher les fichiers cachés
