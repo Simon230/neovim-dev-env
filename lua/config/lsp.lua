@@ -14,9 +14,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 -- jdtls refuse de démarrer sous Java 21 : on lui choisit un JDK compatible
 -- pour ne pas dépendre du JAVA_HOME du shell (.zshrc), qui peut changer
+local java_home
+
+if vim.fn.has("macunix") == 1 then
+  java_home = vim.trim(
+    vim.fn.system({ "/usr/libexec/java_home", "-v", "21+" })
+  )
+else
+  java_home = "/usr/lib/jvm/java-21-openjdk-amd64"
+end
+
 vim.lsp.config("jdtls", {
   cmd_env = {
-    JAVA_HOME = vim.trim(vim.fn.system({ "/usr/libexec/java_home", "-v", "21+" })),
+    JAVA_HOME = java_home,
   },
 })
 
